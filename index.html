@@ -1,28 +1,76 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Testing</title>
+  <title>Página com Tema Claro/Escuro</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    /* Tema claro (cinza suave) */
+    html[data-theme='light'] {
+      background-color: #f4f4f4;
+      color: #212529;
+    }
+
+    html[data-theme='light'] .navbar {
+      background-color: #dee2e6 !important;
+    }
+
+    html[data-theme='light'] .navbar .nav-link,
+    html[data-theme='light'] .navbar-brand {
+      color: #212529 !important;
+    }
+
+    html[data-theme='light'] footer {
+      background-color: #dee2e6 !important;
+      color: #212529;
+    }
+
+    /* Tema escuro já usa cores do Bootstrap por padrão */
+    html[data-theme='dark'] {
+      background-color: #121212;
+      color: #f8f9fa;
+    }
+
+    html[data-theme='dark'] .bg-light {
+      background-color: #1e1e1e !important;
+    }
+
+    html[data-theme='dark'] .navbar,
+    html[data-theme='dark'] footer {
+      background-color: #212529 !important;
+      color: #f8f9fa;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: inherit;
+    }
+  </style>
 </head>
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg">
     <div class="container">
       <a class="navbar-brand" href="#">Meu Site</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
         aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="#">Início</a></li>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Sobre</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Serviços</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Contato</a></li>
         </ul>
+        <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema">
+          🌙
+        </button>
       </div>
     </div>
   </nav>
@@ -31,7 +79,7 @@
   <section class="bg-light text-center py-5">
     <div class="container">
       <h1 class="display-4">Bem-vindo ao Meu Site</h1>
-      <p class="lead">Este é um exemplo simples de página com Bootstrap usando layout moderno e responsivo.</p>
+      <p class="lead">Este é um exemplo com tema claro e escuro usando Bootstrap.</p>
       <a href="#" class="btn btn-primary btn-lg">Saiba Mais</a>
     </div>
   </section>
@@ -42,23 +90,18 @@
       <div class="col-md-8">
         <h2>Conteúdo Principal</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet eros ac nulla suscipit aliquet. 
-          Donec dignissim lorem sed nulla dictum, in cursus nulla efficitur. Mauris sed tellus sed risus accumsan 
-          dapibus. Praesent eu eros risus. Sed viverra nec libero a egestas. Nullam dignissim ex at justo cursus, 
-          at efficitur orci efficitur.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet eros ac nulla suscipit aliquet.
+          Donec dignissim lorem sed nulla dictum, in cursus nulla efficitur.
         </p>
         <p>
-          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-          Aliquam erat volutpat. Sed consectetur velit id lorem efficitur, nec lobortis neque imperdiet. 
-          Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; 
+          Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
           Donec ut tortor ac elit mattis imperdiet.
         </p>
       </div>
       <div class="col-md-4">
         <h3>Sidebar</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nec tellus id massa vulputate 
-          facilisis.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nec tellus id massa vulputate facilisis.
         </p>
         <ul class="list-group">
           <li class="list-group-item">Item 1</li>
@@ -70,12 +113,31 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-primary text-white text-center py-3">
+  <footer class="text-center py-3">
     <div class="container">
-      <small>© 2025 Test. Todos os direitos reservados.</small>
+      <small>© 2025 Meu Site. Todos os direitos reservados.</small>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('themeToggle');
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      setTheme(newTheme);
+    });
+
+    // Aplica tema salvo
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+  </script>
 </body>
 </html>
